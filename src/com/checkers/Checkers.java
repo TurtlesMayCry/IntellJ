@@ -13,23 +13,25 @@ public class Checkers extends JPanel {
     private JFrame frame;
     private ArrayList<Tile> tiles;
     private ArrayList<Piece> pieces, otherPieces;
-    private MouseAction actionIsComing;
 
     public Checkers() {
         super();
         init();
         frame.setTitle("Checkers");
-        this.setPreferredSize(new Dimension(WIDTH * 100, HEIGHT * 100 + 25));
+        setPreferredSize(new Dimension(WIDTH * 100, HEIGHT * 100 + 25));
         frame.getContentPane().add(this);
         frame.pack();
         frame.setVisible(true);
-        this.addMouseListener(actionIsComing);
 
         for(int y = 0; y < 3; y++) {
             for(int x = 0; x < 4; x++) {
                 otherPieces.add(new Piece(x, y, "Black-normal"));
                 pieces.add(new Piece(x, y, "White-normal"));
             }
+        }
+
+        for(int i = 0; i < pieces.size(); i++) {
+            addMouseListener(pieces.get(i));
         }
 
         Iterator playerIter = pieces.iterator();
@@ -55,7 +57,6 @@ public class Checkers extends JPanel {
         tiles = new ArrayList<>();
         pieces = new ArrayList<>();
         otherPieces = new ArrayList<>();
-        actionIsComing = new MouseAction();
     }
 
     public void paintComponent(Graphics g) {

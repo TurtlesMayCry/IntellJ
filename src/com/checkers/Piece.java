@@ -1,12 +1,14 @@
 package com.checkers;
 
+import javax.swing.JComponent;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.Ellipse2D;
 
-public class Piece extends Ellipse2D.Double implements MouseListener {
+public class Piece extends JComponent implements MouseListener {
 
+    Ellipse2D.Double circle;
     public String type;
     public Color color;
     public int mouseX, mouseY;
@@ -14,17 +16,19 @@ public class Piece extends Ellipse2D.Double implements MouseListener {
 
     public Piece(int x, int y, String type) {
         this.type = type;
+        this.circle = new Ellipse2D.Double();
+
         if(type == "White-normal") {
             color = Color.ORANGE;
             switch (y) {
                 case 0:
-                    setFrame((x * 200) + 100 + 12.5, (y * 100) + 12.5, 75.0, 75.0);
+                    circle.setFrame((x * 200) + 100 + 12.5, (y * 100) + 12.5, 75.0, 75.0);
                     break;
                 case 1:
-                    setFrame((x * 200) + 12.5 ,  (y * 100) + 12.5, 75.0, 75.0);
+                    circle.setFrame((x * 200) + 12.5 ,  (y * 100) + 12.5, 75.0, 75.0);
                     break;
                 case 2:
-                    setFrame((x * 200) + 100 + 12.5,  (y * 100) + 12.5, 75.0, 75.0);
+                    circle.setFrame((x * 200) + 100 + 12.5,  (y * 100) + 12.5, 75.0, 75.0);
                     break;
             }
         }
@@ -32,13 +36,13 @@ public class Piece extends Ellipse2D.Double implements MouseListener {
             color = Color.PINK;
             switch (y) {
                 case 0:
-                    setFrame((x * 200) + 12.5, 500 + 12.5, 75.0, 75.0);
+                    circle.setFrame((x * 200) + 12.5, 500 + 12.5, 75.0, 75.0);
                     break;
                 case 1:
-                    setFrame( (x * 200) + 100 + 12.5, 600 + 12.5, 75.0, 75.0);
+                    circle.setFrame( (x * 200) + 100 + 12.5, 600 + 12.5, 75.0, 75.0);
                     break;
                 case 2:
-                    setFrame( (x * 200) + 12.5, 700 + 12.5, 75.0, 75.0 );
+                    circle.setFrame( (x * 200) + 12.5, 700 + 12.5, 75.0, 75.0 );
                     break;
             }
         }
@@ -68,19 +72,21 @@ public class Piece extends Ellipse2D.Double implements MouseListener {
     public void paintPiece(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         g2.setColor(color);
-        g2.fill(this);
+        g2.fill(this.circle);
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-
+        int newX = e.getX();
+        int newY = e.getY();
+        if(this.circle.contains(new Point(newX, newY))) {
+            System.out.println(newX);
+        }
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-        this.mouseX = e.getX();
-        this.mouseY = e.getY();
-        System.out.println(mouseX + ", " + mouseY);
+
     }
 
     @Override
@@ -90,8 +96,7 @@ public class Piece extends Ellipse2D.Double implements MouseListener {
 
     @Override
     public void mouseEntered(MouseEvent e) {
-        Piece testing = (Piece) e.getSource();
-        System.out.println(testing);
+
     }
 
     @Override
